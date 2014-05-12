@@ -1,7 +1,6 @@
 package controller.boot;
 
 import view.ViewMaze;
-import maze.BigMaze;
 import maze.SmallMaze;
 import model.ModelMaze;
 
