@@ -7,8 +7,6 @@ public class BigMaze extends Maze{
 	int length=16;
 
 	public BigMaze() {
-		//gal
-		//test
 		int[][] matrix = new int[length][length];
 		for (int i = 1; i < length; i++) {
 			matrix[1][i] = -1;
