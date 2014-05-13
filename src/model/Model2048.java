@@ -21,7 +21,8 @@ public class Model2048 extends Observable implements Model {
 	private boolean[][] dataflag;
 	private LinkedList<int[][]> undodata;
 	private LinkedList<Integer> undoscore;
-	private int score = 0;
+	private int code;
+	private int score;
 	private boolean gameOver;
 	private boolean noMoreMoves;
 	private boolean win;
@@ -29,6 +30,8 @@ public class Model2048 extends Observable implements Model {
 	// Default c'tor
 	public Model2048(){
 		N=4;
+		score = 0;
+		code = 0;
 		gameOver = false;
 		noMoreMoves = false;
 		win = false;
@@ -47,6 +50,7 @@ public class Model2048 extends Observable implements Model {
 	// Moves
 	@Override
 	public void MoveUp() {
+		code = 8;
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
@@ -98,6 +102,7 @@ public class Model2048 extends Observable implements Model {
 
 	@Override
 	public void MoveDown() {
+		code = 2;
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
@@ -150,6 +155,7 @@ public class Model2048 extends Observable implements Model {
 
 	@Override
 	public void MoveLeft() {
+		code = 4;
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
@@ -203,6 +209,7 @@ public class Model2048 extends Observable implements Model {
 
 	@Override
 	public void MoveRight() {
+		code = 6;
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
