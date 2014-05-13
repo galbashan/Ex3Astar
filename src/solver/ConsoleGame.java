@@ -42,7 +42,7 @@ public class ConsoleGame {
      */
     public static void main(String[] args) throws CloneNotSupportedException {
         
-        Model2048 m = new Model2048();
+        
     	System.out.println("The 2048 Game in JAVA!");
         System.out.println("======================");
         System.out.println();
@@ -100,10 +100,10 @@ public class ConsoleGame {
         int wins=0;
         int total=10;
         System.out.println("Running "+total+" games to estimate the accuracy:");
-        
+        Model2048 m = new Model2048();
         for(int i=0;i<total;++i) {
             int hintDepth = 7;
-            Board theGame = new Board(m.g);
+            Board theGame = new Board(m.getData());
             Direction hint = AIsolver.findBestMove(theGame, hintDepth);
             ActionStatus result=ActionStatus.CONTINUE;
             while(result==ActionStatus.CONTINUE || result==ActionStatus.INVALID_MOVE) {
@@ -132,11 +132,12 @@ public class ConsoleGame {
      * @throws CloneNotSupportedException 
      */
     public static void playGame() throws CloneNotSupportedException {
+    	Model2048 m = new Model2048();
         System.out.println("Play the 2048 Game!"); 
         System.out.println("Use 8 for UP, 6 for RIGHT, 2 for DOWN and 4 for LEFT. Type a to play automatically and q to exit. Press enter to submit your choice.");
         
         int hintDepth = 7;
-        Board theGame = new Board(t);
+        Board theGame = new Board(m.getData());
         Direction hint = AIsolver.findBestMove(theGame, hintDepth);
         printBoard(theGame.getBoardArray(), theGame.getScore(), hint);
         
