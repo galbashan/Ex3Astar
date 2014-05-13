@@ -22,6 +22,7 @@ public class Model2048 extends Observable implements Model {
 	private LinkedList<int[][]> undodata;
 	private LinkedList<Integer> undoscore;
 	private int code;
+	private String description;
 	private int score;
 	private boolean gameOver;
 	private boolean noMoreMoves;
@@ -51,6 +52,7 @@ public class Model2048 extends Observable implements Model {
 	@Override
 	public void MoveUp() {
 		code = 8;
+		description = new String("UP");
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
@@ -103,6 +105,7 @@ public class Model2048 extends Observable implements Model {
 	@Override
 	public void MoveDown() {
 		code = 2;
+		description = new String("DOWN");
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
@@ -156,6 +159,7 @@ public class Model2048 extends Observable implements Model {
 	@Override
 	public void MoveLeft() {
 		code = 4;
+		description = new String("LEFT");
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
@@ -210,6 +214,7 @@ public class Model2048 extends Observable implements Model {
 	@Override
 	public void MoveRight() {
 		code = 6;
+		description = new String("RIGHT");
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
@@ -522,5 +527,9 @@ public class Model2048 extends Observable implements Model {
 	public void MoveDownLeft() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public int getCode() {
+		return code;
 	}
 }
