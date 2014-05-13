@@ -363,7 +363,7 @@ public class Model2048 extends Observable implements Model {
 	}
 
 	// Clone the matrix's data
-	private int[][] dataClone()
+	public int[][] dataClone()
 	{
 		int[][] c = new int[N][N];
 		for (int i=0; i < N; i++ )
