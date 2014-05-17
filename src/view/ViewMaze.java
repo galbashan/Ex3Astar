@@ -491,4 +491,4 @@ public class ViewMaze extends Observable implements View, Runnable {
 	public void setLength(int length) {
 		this.length = length;
 	}
-}
+}//

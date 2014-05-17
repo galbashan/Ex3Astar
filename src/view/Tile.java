@@ -154,5 +154,5 @@ public class Tile extends Canvas{
 		this.value = value;
 		redraw();
 	}
-
+//
 }

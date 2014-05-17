@@ -42,4 +42,4 @@ public class Board extends Composite{
 			for (int j = 0; j < length; j++)
 				tiles[i][j].setValue(boardData[i][j]);
 	}
-}
+}//
