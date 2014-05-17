@@ -182,7 +182,7 @@ public class ModelMaze extends Observable implements Model,Serializable {
 
 	
 	@Override
-	public void MoveUpRight() {
+	public boolean MoveUpRight() {
 		win = false;
 		noMoreMoves = false;
 		gameOver = false;
@@ -196,17 +196,22 @@ public class ModelMaze extends Observable implements Model,Serializable {
 			current = new Point((current.x)-1,(current.y)+1);
 			score=score+15;
 			checkWin(current);
+			setChanged();
+			notifyObservers();
+			return true;
 		}
 		else{
 			maze=undodata.removeLast();
 			score=undoscore.removeLast();
+			setChanged();
+			notifyObservers();
+			return false;
 		}
-		setChanged();
-		notifyObservers();
+		
 	}
 	
 	@Override
-	public void MoveUpLeft() {
+	public boolean MoveUpLeft() {
 		win = false;
 		noMoreMoves = false;
 		gameOver = false;
@@ -220,17 +225,22 @@ public class ModelMaze extends Observable implements Model,Serializable {
 			current = new Point((current.x)-1,(current.y)-1);
 			score=score+15;
 			checkWin(current);
+			setChanged();
+			notifyObservers();
+			return true;
 		}
 		else{
 			maze=undodata.removeLast();
 			score=undoscore.removeLast();
+			setChanged();
+			notifyObservers();
+			return false;
 		}
-		setChanged();
-		notifyObservers();
+		
 	}
 	
 	@Override
-	public void MoveDownLeft() {
+	public boolean MoveDownLeft() {
 		win = false;
 		noMoreMoves = false;
 		gameOver = false;
@@ -243,18 +253,22 @@ public class ModelMaze extends Observable implements Model,Serializable {
 			maze[current.x][current.y]=0;
 			current = new Point((current.x)+1,(current.y)-1);
 			score=score+15;
-			checkWin(current);
+			setChanged();
+			notifyObservers();
+			return true;
 		}
 		else{
 			maze=undodata.removeLast();
 			score=undoscore.removeLast();
+			setChanged();
+			notifyObservers();
+			return false;
 		}
-		setChanged();
-		notifyObservers();
+		
 	}
 	
 	@Override
-	public void MoveDownRight() {
+	public boolean MoveDownRight() {
 		win = false;
 		noMoreMoves = false;
 		gameOver = false;
@@ -268,13 +282,18 @@ public class ModelMaze extends Observable implements Model,Serializable {
 			current = new Point((current.x)+1,(current.y)+1);
 			score=score+15;
 			checkWin(current);
+			setChanged();
+			notifyObservers();
+			return true;
 		}
 		else{
 			maze=undodata.removeLast();
 			score=undoscore.removeLast();
+			setChanged();
+			notifyObservers();
+			return false;
 		}
-		setChanged();
-		notifyObservers();
+		
 	}
 	
 	private int get(int x, int y) {

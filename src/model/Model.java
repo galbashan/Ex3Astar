@@ -7,10 +7,10 @@ public interface Model {
 	boolean MoveDown();
 	boolean MoveLeft();
 	boolean MoveRight();
-	void MoveUpRight();
-	void MoveUpLeft();
-	void MoveDownRight();
-	void MoveDownLeft();
+	boolean MoveUpRight();
+	boolean MoveUpLeft();
+	boolean MoveDownRight();
+	boolean MoveDownLeft();
 	int[][] getData();
 	void undo();
 	void restartGame();

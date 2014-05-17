@@ -704,26 +704,26 @@ public class Model2048 extends Observable implements Model {
 	}
 
 	@Override
-	public void MoveUpRight() {
-		// TODO Auto-generated method stub
+	public boolean MoveUpRight() {
+		return true;
 		
 	}
 
 	@Override
-	public void MoveUpLeft() {
-		// TODO Auto-generated method stub
+	public boolean MoveUpLeft() {
+		return true;
 		
 	}
 
 	@Override
-	public void MoveDownRight() {
-		// TODO Auto-generated method stub
+	public boolean MoveDownRight() {
+		return true;
 		
 	}
 
 	@Override
-	public void MoveDownLeft() {
-		// TODO Auto-generated method stub
+	public boolean MoveDownLeft() {
+		return true;
 		
 	}
 
