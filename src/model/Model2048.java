@@ -8,10 +8,16 @@ import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Random;
+
+import javax.jws.soap.InitParam;
+
+import model.algorithms.minimax.Minimax;
 
 
 public class Model2048 extends Observable implements Model {
@@ -21,19 +27,19 @@ public class Model2048 extends Observable implements Model {
 	private boolean[][] dataflag;
 	private LinkedList<int[][]> undodata;
 	private LinkedList<Integer> undoscore;
-	private int code;
-	private String description;
 	private int score;
+	private boolean terminate;
 	private boolean gameOver;
 	private boolean noMoreMoves;
 	private boolean win;
+	private Minimax minimax;
 	
 	// Default c'tor
 	public Model2048(){
 		N=4;
 		score = 0;
-		code = 0;
 		gameOver = false;
+		terminate = false;
 		noMoreMoves = false;
 		win = false;
 		data =  new int[N][N];
@@ -46,17 +52,32 @@ public class Model2048 extends Observable implements Model {
 			}
 		undodata = new LinkedList<int[][]>();
 		undoscore = new LinkedList<Integer>();
+		minimax = new Minimax();
+	}
+	
+	// copy c'tor
+	public Model2048(Model2048 model){
+		this.setData(model.dataClone());
+		N=4;
+		score = model.getScore();
+		gameOver = model.getGameOver();
+		noMoreMoves = model.getNoMoreMoves();
+		terminate = model.isTerminate();
+		win = model.isWin();
+		dataflag =  new boolean[N][N];
+		initFlag();
+		undodata = model.getUndodata();
+		undoscore = model.getUndoscore();
+		minimax=model.getminimax();
+
 	}
 	
 	// Moves
 	@Override
 	public void MoveUp() {
-		code = 8;
-		description = new String("UP");
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
-		win = false;
 		noMoreMoves = false;
 		boolean flag = true;
 		int count = 0;
@@ -104,12 +125,9 @@ public class Model2048 extends Observable implements Model {
 
 	@Override
 	public void MoveDown() {
-		code = 2;
-		description = new String("DOWN");
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
-		win = false;
 		noMoreMoves = false;
 		boolean flag = true;
 		int count = 0;
@@ -158,12 +176,9 @@ public class Model2048 extends Observable implements Model {
 
 	@Override
 	public void MoveLeft() {
-		code = 4;
-		description = new String("LEFT");
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
-		win = false;
 		noMoreMoves = false;
 		boolean flag = true;
 		int count = 0;
@@ -213,12 +228,9 @@ public class Model2048 extends Observable implements Model {
 
 	@Override
 	public void MoveRight() {
-		code = 6;
-		description = new String("RIGHT");
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
-		win = false;
 		noMoreMoves = false;
 		boolean flag = true;
 		int count = 0;
@@ -294,6 +306,39 @@ public class Model2048 extends Observable implements Model {
 		}
 	}
 	
+	public int getEmptyCells()
+	{
+		HashMap<Integer, Point> freepoints = new HashMap<Integer, Point>();
+		int count = 0;
+		for (int i=0; i < data.length; i++ )
+			for (int j=0; j < data[0].length; j++ )
+				if (data[i][j] == 0)
+				{
+					freepoints.put(count, new Point(i,j));
+					count++;
+				}
+		return count;
+	}
+	
+	public List<Integer> getEmptyCellIds() {
+        List<Integer> cellList = new ArrayList<>();
+        
+        for(int i=0;i<data.length;++i) {
+            for(int j=0;j<data[0].length;++j) {
+                if(data[i][j]==0) {
+                    cellList.add(data.length*i+j);
+                }
+            }
+        }
+        return cellList;
+    }
+	
+	 public void setEmptyCell(int i, int j, int value) {
+	        if(data[i][j]==0) {
+	            data[i][j]=value;
+	        }
+	    }
+	
 	// Add new break after user's action
 	private boolean addBrick()
 	{
@@ -330,6 +375,7 @@ public class Model2048 extends Observable implements Model {
 		{
 			System.out.println("You Win!");
 			win = true;
+			terminate = true;
 			return true;
 		}
 		return false;
@@ -352,6 +398,7 @@ public class Model2048 extends Observable implements Model {
 						return false;
 		}
 		gameOver=true;
+		terminate = true;
 		return true;
 	}
 	
@@ -370,6 +417,7 @@ public class Model2048 extends Observable implements Model {
 		noMoreMoves = false;
 		gameOver=false;
 		win = false;
+		terminate = false;
 		setChanged();
 		notifyObservers();
 	}
@@ -455,6 +503,73 @@ public class Model2048 extends Observable implements Model {
 		else return true;
 	}
 	
+	public boolean isEqual(Model2048 m)
+	{
+		int[][] newData = m.getData();
+		for (int i=0; i<N; i++)
+			for (int j=0; j<N; j++)
+				if (data[i][j] != newData[i][j])
+					return false;
+		return true;
+	}
+	
+	@Override
+	public void hint()
+	{
+		int i=0;
+		try {
+			i = Minimax.findBestMove(this, 7);
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		switch(i){
+		case 0:
+			System.out.println("up");
+			MoveUp();
+			break;
+		case 1:
+			System.out.println("down");
+			MoveDown();
+			break;
+		case 2:
+			System.out.println("left");
+			MoveLeft();
+			break;
+		case 3:
+			System.out.println("right");
+			MoveRight();
+			break;
+			
+		}
+		setChanged();
+		notifyObservers();
+	}
+	
+	 public int move(int direction) {    
+		 int points = 0;
+		 switch (direction)
+		 {
+	        case 0:
+	        	MoveUp();
+		        points=getScore();
+		        break;
+	        case 1:
+	        	MoveDown();
+	            points=getScore();
+	            break;
+	        case 2:
+	        	MoveLeft();
+		        points=getScore();
+		        break;
+	        case 3:
+	        	MoveRight();
+	            points=getScore();
+	            break;
+	        }      
+		return points;
+	}
+	
 	public boolean[][] getDataflag() {
 		return dataflag;
 	}
@@ -529,7 +644,14 @@ public class Model2048 extends Observable implements Model {
 		
 	}
 
-	public int getCode() {
-		return code;
+
+	public Minimax getminimax() {
+		return minimax;
 	}
+
+
+	public boolean isTerminate() {
+		return terminate;
+	}
+
 }

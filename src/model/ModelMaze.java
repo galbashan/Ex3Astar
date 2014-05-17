@@ -545,4 +545,11 @@ public class ModelMaze extends Observable implements Model,Serializable {
 	public void setWin(boolean win) {
 		this.win = win;
 	}
+
+
+	@Override
+	public void hint() {
+		// TODO Auto-generated method stub
+		
+	}
 }

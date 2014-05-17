@@ -37,6 +37,9 @@ public class Presenter implements Observer{
 				case 400:
 					model.saveGame(ui.getString());
 					break;
+				case 500:
+					model.hint();
+					break;
 				case 1:
 					model.MoveDownLeft();
 					break;
