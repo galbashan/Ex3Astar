@@ -32,6 +32,7 @@ public class Model2048 extends Observable implements Model {
 	private boolean noMoreMoves;
 	private boolean win;
 	private Minimax minimax;
+	private Solver solver;
 	
 	// Default c'tor
 	public Model2048(){
@@ -51,6 +52,7 @@ public class Model2048 extends Observable implements Model {
 			}
 		undodata = new LinkedList<int[][]>();
 		undoscore = new LinkedList<Integer>();
+		solver = new Solver();
 		minimax = new Minimax();
 	}
 	
@@ -68,6 +70,7 @@ public class Model2048 extends Observable implements Model {
 		undodata = model.getUndodata();
 		undoscore = model.getUndoscore();
 		minimax=model.getminimax();
+		solver=model.getSolver();
 
 	}
 	
@@ -446,6 +449,8 @@ public class Model2048 extends Observable implements Model {
 		gameOver=false;
 		win = false;
 		terminate = false;
+		minimax = new Minimax();
+		solver = new Solver();
 		setChanged();
 		notifyObservers();
 	}
@@ -609,7 +614,7 @@ public class Model2048 extends Observable implements Model {
 	
 	public void hintSolver()
 	{
-		Solver solver = new Solver();
+		
 		int i = solver.findBestMove(this);
 		switch(i){
 		case 0:
@@ -735,6 +740,10 @@ public class Model2048 extends Observable implements Model {
 
 	public boolean isTerminate() {
 		return terminate;
+	}
+
+	public Solver getSolver() {
+		return solver;
 	}
 
 }
