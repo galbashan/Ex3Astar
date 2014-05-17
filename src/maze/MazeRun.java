@@ -18,5 +18,4 @@ public class MazeRun {
 			System.out.println(a.getName());
 	System.out.println("number of evaluated node:" + as.getNumOfEvaluatedNodes());
 	}
-	//
 }

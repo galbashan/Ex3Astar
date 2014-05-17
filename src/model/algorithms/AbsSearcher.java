@@ -69,5 +69,4 @@ public abstract class AbsSearcher implements Searcher{
 	public int getEvaluatedNodesNum() {
 		return evaluatedNodesNum;
 	}
-//
 }

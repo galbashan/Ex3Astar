@@ -16,7 +16,6 @@ public class Maze_H_Distance implements Distance {
 		int dx = Math.abs(pTo.x - pFrom.x);
 		int dy = Math.abs(pTo.y - pFrom.y);
 		return Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2))*10;
-		//
 	}
 
 }

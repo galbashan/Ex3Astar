@@ -8,4 +8,3 @@ public interface Domain {
 	public State getStartState();
 	public State getGoalState();
 }
-//

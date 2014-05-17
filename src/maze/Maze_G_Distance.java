@@ -21,7 +21,6 @@ public class Maze_G_Distance implements Distance {
 		if (dx == 0 || dy == 0)
 			return 10;
 		return 15;
-		//
 	}
 
 }

@@ -121,7 +121,5 @@ public class AStar extends AbsSearcher implements Serializable{
 	public void setmDomain(Domain mDomain) {
 		this.mDomain = mDomain;
 	}
-	
-//
 }
 

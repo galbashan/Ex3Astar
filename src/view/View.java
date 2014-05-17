@@ -11,4 +11,3 @@ public interface View {
 	void displayWin(boolean win);
 	void setLength(int length);
 }
-//

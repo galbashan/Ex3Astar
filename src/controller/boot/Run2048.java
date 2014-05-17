@@ -15,7 +15,5 @@ public class Run2048 {
 		ui.addObserver(p);
 		m.addObserver(p);
 		new Thread(ui).start();
-		//
-		
 	}	
 }

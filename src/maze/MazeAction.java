@@ -36,6 +36,4 @@ public class MazeAction implements Action {
 	public String getName() {
 		return "MazeAction:(" + dx + "," + dy + ")";
 	}
-
-//
 }

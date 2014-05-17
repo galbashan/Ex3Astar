@@ -15,6 +15,5 @@ public class RunMaze {
 		ui.addObserver(p);
 		m.addObserver(p);
 		new Thread(ui).start();
-		//
 	}
 }
