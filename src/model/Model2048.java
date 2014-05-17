@@ -14,7 +14,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
+
 import model.algorithms.minimax.Minimax;
+import model.algorithms.solver.Solver;
 
 
 public class Model2048 extends Observable implements Model {
@@ -540,7 +542,7 @@ public class Model2048 extends Observable implements Model {
 	}
 	
 	@Override
-	public void hint()
+	public void hintMinimax()
 	{
 		int i=0;
 		boolean flag;
@@ -600,6 +602,28 @@ public class Model2048 extends Observable implements Model {
 			}
 			break;
 			
+		}
+		setChanged();
+		notifyObservers();
+	}
+	
+	public void hintSolver()
+	{
+		Solver solver = new Solver();
+		int i = solver.findBestMove(this);
+		switch(i){
+		case 0:
+			MoveUp();
+			break;
+		case 1:
+			MoveDown();
+			break;
+		case 2:
+			MoveLeft();
+			break;
+		case 3:
+			MoveRight();
+			break;	
 		}
 		setChanged();
 		notifyObservers();

@@ -566,7 +566,14 @@ public class ModelMaze extends Observable implements Model,Serializable {
 
 
 	@Override
-	public void hint() {
+	public void hintMinimax() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void hintSolver() {
 		// TODO Auto-generated method stub
 		
 	}

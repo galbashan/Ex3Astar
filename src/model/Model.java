@@ -21,5 +21,6 @@ public interface Model {
 	public boolean getNoMoreMoves();
 	public boolean isWin();
 	public int getLength();
-	void hint();
+	void hintMinimax();
+	void hintSolver();
 }
