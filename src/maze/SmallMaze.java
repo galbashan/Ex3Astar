@@ -42,6 +42,6 @@ public class SmallMaze extends Maze {
 		this.setGoal(new Point(7,7));
 	}
 
-
+//
 	
 }

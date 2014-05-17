@@ -37,5 +37,5 @@ public class MazeAction implements Action {
 		return "MazeAction:(" + dx + "," + dy + ")";
 	}
 
-
+//
 }

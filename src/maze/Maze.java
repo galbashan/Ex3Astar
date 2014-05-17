@@ -27,6 +27,7 @@ public class Maze implements Serializable{
 		matrix = maze.getMaze();
 		start = maze.getStart();
 		goal = maze.getGoal();
+		//
 	}
 
 	public int get(int x, int y) {

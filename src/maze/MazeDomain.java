@@ -60,6 +60,6 @@ public class MazeDomain implements Domain {
 	public void setMaze(Maze maze) {
 		this.mMaze = maze;
 	}
-
+//
 }
 
