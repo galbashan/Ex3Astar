@@ -3,10 +3,10 @@ package model;
 
 public interface Model {
 	
-	void MoveUp();
-	void MoveDown();
-	void MoveLeft();
-	void MoveRight();
+	boolean MoveUp();
+	boolean MoveDown();
+	boolean MoveLeft();
+	boolean MoveRight();
 	void MoveUpRight();
 	void MoveUpLeft();
 	void MoveDownRight();

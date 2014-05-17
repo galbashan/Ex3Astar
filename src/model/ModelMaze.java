@@ -65,7 +65,7 @@ public class ModelMaze extends Observable implements Model,Serializable {
 	
 	// Moves
 	@Override
-	public void MoveUp() {
+	public boolean MoveUp() {
 		win = false;
 		noMoreMoves = false;
 		gameOver = false;
@@ -79,17 +79,21 @@ public class ModelMaze extends Observable implements Model,Serializable {
 			current = new Point((current.x)-1,current.y);
 			score=score+10;
 			checkWin(current);
+			setChanged();
+			notifyObservers();
+			return true;
 		}
 		else{
 			maze=undodata.removeLast();
 			score=undoscore.removeLast();
+			setChanged();
+			notifyObservers();
+			return false;
 		}
-		setChanged();
-		notifyObservers();
 	}
 
 	@Override
-	public void MoveDown() {
+	public  boolean MoveDown() {
 		win = false;
 		noMoreMoves = false;
 		gameOver = false;
@@ -103,18 +107,22 @@ public class ModelMaze extends Observable implements Model,Serializable {
 			current = new Point((current.x)+1,current.y);
 			score=score+10;
 			checkWin(current);
+			setChanged();
+			notifyObservers();
+			return true;
 		}
 		else{
 			maze=undodata.removeLast();
 			score=undoscore.removeLast();
+			setChanged();
+			notifyObservers();
+			return false;
 		}
-		setChanged();
-		notifyObservers();
 		
 	}
 
 	@Override
-	public void MoveLeft() {
+	public  boolean MoveLeft() {
 		win = false;
 		noMoreMoves = false;
 		gameOver = false;
@@ -128,18 +136,22 @@ public class ModelMaze extends Observable implements Model,Serializable {
 			current = new Point(current.x,(current.y)-1);
 			score=score+10;
 			checkWin(current);
+			setChanged();
+			notifyObservers();
+			return true;
 		}
 		else{
 			maze=undodata.removeLast();
 			score=undoscore.removeLast();
+			setChanged();
+			notifyObservers();
+			return false;
 		}
-		setChanged();
-		notifyObservers();
 		
 	}
 
 	@Override
-	public void MoveRight() {
+	public  boolean MoveRight() {
 		win = false;
 		noMoreMoves = false;
 		gameOver = false;
@@ -153,15 +165,21 @@ public class ModelMaze extends Observable implements Model,Serializable {
 			current = new Point(current.x,(current.y)+1);
 			score=score+10;
 			checkWin(current);
+			setChanged();
+			notifyObservers();
+			return true;
 		}
 		else{
 			maze=undodata.removeLast();
 			score=undoscore.removeLast();
+			setChanged();
+			notifyObservers();
+			return false;
 		}
-		setChanged();
-		notifyObservers();
 		
 	}
+	
+
 	
 	@Override
 	public void MoveUpRight() {

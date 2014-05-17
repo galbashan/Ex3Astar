@@ -14,9 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
-
-import javax.jws.soap.InitParam;
-
 import model.algorithms.minimax.Minimax;
 
 
@@ -74,10 +71,11 @@ public class Model2048 extends Observable implements Model {
 	
 	// Moves
 	@Override
-	public void MoveUp() {
+	public boolean MoveUp() {
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
+		win = false;
 		noMoreMoves = false;
 		boolean flag = true;
 		int count = 0;
@@ -113,21 +111,29 @@ public class Model2048 extends Observable implements Model {
 			}
 		}
 		if (count !=0)
+		{
 			addBrick();
+			checkLoose();
+			setChanged();
+			notifyObservers();	
+			return true;
+		}		
 		else{
 			data=undodata.removeLast();
 			score=undoscore.removeLast();
+			setChanged();
+			notifyObservers();	
+			return false;
 		}
-		checkLoose();
-		setChanged();
-		notifyObservers();	
+		
 	}
 
 	@Override
-	public void MoveDown() {
+	public boolean MoveDown() {
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
+		win = false;
 		noMoreMoves = false;
 		boolean flag = true;
 		int count = 0;
@@ -164,21 +170,28 @@ public class Model2048 extends Observable implements Model {
 		}
 		
 		if (count !=0)
+		{
 			addBrick();
+			checkLoose();
+			setChanged();
+			notifyObservers();	
+			return true;
+		}		
 		else{
 			data=undodata.removeLast();
 			score=undoscore.removeLast();
+			setChanged();
+			notifyObservers();	
+			return false;
 		}
-		checkLoose();
-		setChanged();
-		notifyObservers();
 	}
 
 	@Override
-	public void MoveLeft() {
+	public boolean MoveLeft() {
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
+		win = false;
 		noMoreMoves = false;
 		boolean flag = true;
 		int count = 0;
@@ -216,21 +229,28 @@ public class Model2048 extends Observable implements Model {
 		}
 		
 		if (count !=0)
+		{
 			addBrick();
+			checkLoose();
+			setChanged();
+			notifyObservers();	
+			return true;
+		}		
 		else{
 			data=undodata.removeLast();
 			score=undoscore.removeLast();
+			setChanged();
+			notifyObservers();	
+			return false;
 		}
-		checkLoose();
-		setChanged();
-		notifyObservers();
 	}
 
 	@Override
-	public void MoveRight() {
+	public boolean MoveRight() {
 		undodata.addLast(dataClone());
 		undoscore.addLast(scoreClone());
 		initFlag();
+		win = false;
 		noMoreMoves = false;
 		boolean flag = true;
 		int count = 0;
@@ -266,14 +286,20 @@ public class Model2048 extends Observable implements Model {
 			}
 		}
 		if (count !=0)
+		{
 			addBrick();
+			checkLoose();
+			setChanged();
+			notifyObservers();	
+			return true;
+		}		
 		else{
 			data=undodata.removeLast();
 			score=undoscore.removeLast();
+			setChanged();
+			notifyObservers();	
+			return false;
 		}
-		checkLoose();
-		setChanged();
-		notifyObservers();
 	}
 
 	// Perform undo
@@ -517,6 +543,7 @@ public class Model2048 extends Observable implements Model {
 	public void hint()
 	{
 		int i=0;
+		boolean flag;
 		try {
 			i = Minimax.findBestMove(this, 7);
 		} catch (CloneNotSupportedException e) {
@@ -525,20 +552,52 @@ public class Model2048 extends Observable implements Model {
 		}
 		switch(i){
 		case 0:
-			System.out.println("up");
-			MoveUp();
+			flag=MoveUp();
+			if (flag == false)
+			{
+				MoveDown();
+				System.out.println("down");
+			}
+			else
+			{
+				System.out.println("up");
+			}
 			break;
 		case 1:
-			System.out.println("down");
-			MoveDown();
+			flag=MoveDown();
+			if (flag == false)
+			{
+				MoveUp();
+				System.out.println("up");
+			}
+			else
+			{
+				System.out.println("down");
+			}
 			break;
 		case 2:
-			System.out.println("left");
-			MoveLeft();
+			flag=MoveLeft();
+			if (flag == false)
+			{
+				MoveRight();
+				System.out.println("right");
+			}
+			else
+			{
+				System.out.println("left");
+			}
 			break;
 		case 3:
-			System.out.println("right");
-			MoveRight();
+			flag=MoveRight();
+			if (flag == false)
+			{
+				MoveLeft();
+				System.out.println("left");
+			}
+			else
+			{
+				System.out.println("right");
+			}
 			break;
 			
 		}
