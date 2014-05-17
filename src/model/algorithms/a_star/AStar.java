@@ -122,6 +122,6 @@ public class AStar extends AbsSearcher implements Serializable{
 		this.mDomain = mDomain;
 	}
 	
-
+//
 }
 
