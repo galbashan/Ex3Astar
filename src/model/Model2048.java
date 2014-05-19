@@ -8,6 +8,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -15,12 +16,15 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Random;
 
+import client.Client;
 import model.algorithms.minimax.Minimax;
 import model.algorithms.solver.Solver;
 
 
-public class Model2048 extends Observable implements Model {
+public class Model2048 extends Observable implements Model,Serializable {
 	
+	
+	private static final long serialVersionUID = 1L;
 	private int N;
 	private int[][] data;
 	private boolean[][] dataflag;
@@ -33,6 +37,7 @@ public class Model2048 extends Observable implements Model {
 	private boolean win;
 	private Minimax minimax;
 	private Solver solver;
+	private int servercommand;
 	
 	// Default c'tor
 	public Model2048(){
@@ -54,6 +59,7 @@ public class Model2048 extends Observable implements Model {
 		undoscore = new LinkedList<Integer>();
 		solver = new Solver();
 		minimax = new Minimax();
+		servercommand = 0;
 	}
 	
 	// copy c'tor
@@ -547,7 +553,7 @@ public class Model2048 extends Observable implements Model {
 	}
 	
 	@Override
-	public void hintMinimax()
+	public int hintMinimax()
 	{
 		int i=0;
 		boolean flag;
@@ -557,59 +563,65 @@ public class Model2048 extends Observable implements Model {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Model2048 m = new Model2048(this);
+		int temp = 0;
 		switch(i){
 		case 0:
-			flag=MoveUp();
+			flag=m.MoveUp();
 			if (flag == false)
 			{
-				MoveDown();
 				System.out.println("down");
+				temp=1;
 			}
 			else
 			{
 				System.out.println("up");
+				temp=0;
 			}
 			break;
 		case 1:
-			flag=MoveDown();
+			flag=m.MoveDown();
 			if (flag == false)
 			{
-				MoveUp();
 				System.out.println("up");
+				temp=0;
 			}
 			else
 			{
 				System.out.println("down");
+				temp=1;
 			}
 			break;
 		case 2:
-			flag=MoveLeft();
+			flag=m.MoveLeft();
 			if (flag == false)
 			{
-				MoveRight();
 				System.out.println("right");
+				temp=3;
 			}
 			else
 			{
 				System.out.println("left");
+				temp=2;
 			}
 			break;
 		case 3:
-			flag=MoveRight();
+			flag=m.MoveRight();
 			if (flag == false)
 			{
-				MoveLeft();
 				System.out.println("left");
+				temp=2;
 			}
 			else
 			{
 				System.out.println("right");
+				temp=3;
 			}
 			break;
-			
 		}
 		setChanged();
 		notifyObservers();
+		return temp;
 	}
 	
 	public void hintSolver()
@@ -656,6 +668,15 @@ public class Model2048 extends Observable implements Model {
 	            break;
 	        }      
 		return points;
+	}
+	 
+	
+	public int connectServer() {
+		
+		Client c = new Client(this);
+		Thread tc=new Thread(c, "ClientThread");
+		tc.start();
+		return servercommand;
 	}
 	
 	public boolean[][] getDataflag() {
@@ -745,5 +766,49 @@ public class Model2048 extends Observable implements Model {
 	public Solver getSolver() {
 		return solver;
 	}
+	
+	public int getServercommand() {
+		return servercommand;
+	}
+	public void setServercommand(int servercommand) {
+		this.servercommand = servercommand;
+	}
+
+	public int getN() {
+		return N;
+	}
+
+	public void setN(int n) {
+		N = n;
+	}
+
+	public Minimax getMinimax() {
+		return minimax;
+	}
+
+	public void setMinimax(Minimax minimax) {
+		this.minimax = minimax;
+	}
+
+	public void setTerminate(boolean terminate) {
+		this.terminate = terminate;
+	}
+
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
+	}
+
+	public void setNoMoreMoves(boolean noMoreMoves) {
+		this.noMoreMoves = noMoreMoves;
+	}
+
+	public void setWin(boolean win) {
+		this.win = win;
+	}
+
+	public void setSolver(Solver solver) {
+		this.solver = solver;
+	}
+
 
 }

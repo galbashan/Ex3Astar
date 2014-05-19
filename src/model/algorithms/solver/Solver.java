@@ -1,9 +1,15 @@
 package model.algorithms.solver;
+import java.io.Serializable;
+
 import model.Model2048;
 
 
-public class Solver {
+public class Solver implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	int nextMove=1;
 	
 	 public int findBestMove(Model2048 m){

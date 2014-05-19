@@ -17,16 +17,21 @@
 package model.algorithms.minimax;
 
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import model.Model2048;
 
 
-public class Minimax {
+public class Minimax implements Serializable {
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Player vs Computer enum class
      */
     public enum Player {
