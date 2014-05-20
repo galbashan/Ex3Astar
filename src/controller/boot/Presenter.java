@@ -2,6 +2,7 @@ package controller.boot;
 
 import java.util.Observable;
 import java.util.Observer;
+
 import view.View;
 import model.Model;
 
@@ -36,8 +37,8 @@ public class Presenter implements Observer{
 					model.saveGame(ui.getString());
 					break;
 				case 500:
-					int c = model.connectServer();
-					 model.move(c);
+					int c=model.connectServer();
+					model.move(c);
 					break;
 				case 600:
 					model.hintSolver();

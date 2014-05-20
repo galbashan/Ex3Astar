@@ -34,9 +34,7 @@ public class Run2048Server {
 			}
 
 			@Override
-			public void handleClient(BufferedReader inFromClient,
-					ObjectInputStream ObinFromClient, PrintWriter out2client)
-					throws ClassNotFoundException, IOException,
+			public void handleClient(BufferedReader inFromClient,ObjectInputStream ObinFromClient, PrintWriter out2client) throws ClassNotFoundException, IOException,
 					CloneNotSupportedException {
 				// TODO Auto-generated method stub	
 			}
@@ -44,10 +42,9 @@ public class Run2048Server {
 		});
 		
 		s.start();
-		Thread.sleep(100000);
+		Thread.sleep(1000000000);
 		s.close();
 	
-		//c.run();
 		
 	}
 	

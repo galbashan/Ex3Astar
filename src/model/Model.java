@@ -25,4 +25,5 @@ public interface Model {
 	void hintSolver();
 	int move(int i);
 	int connectServer();
+	//int getServercommand();
 }

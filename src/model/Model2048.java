@@ -570,12 +570,12 @@ public class Model2048 extends Observable implements Model,Serializable {
 			flag=m.MoveUp();
 			if (flag == false)
 			{
-				System.out.println("down");
+				//System.out.println("down");
 				temp=1;
 			}
 			else
 			{
-				System.out.println("up");
+				//System.out.println("up");
 				temp=0;
 			}
 			break;
@@ -583,12 +583,12 @@ public class Model2048 extends Observable implements Model,Serializable {
 			flag=m.MoveDown();
 			if (flag == false)
 			{
-				System.out.println("up");
+				//System.out.println("up");
 				temp=0;
 			}
 			else
 			{
-				System.out.println("down");
+				//System.out.println("down");
 				temp=1;
 			}
 			break;
@@ -596,12 +596,12 @@ public class Model2048 extends Observable implements Model,Serializable {
 			flag=m.MoveLeft();
 			if (flag == false)
 			{
-				System.out.println("right");
+				//System.out.println("right");
 				temp=3;
 			}
 			else
 			{
-				System.out.println("left");
+				//System.out.println("left");
 				temp=2;
 			}
 			break;
@@ -609,12 +609,12 @@ public class Model2048 extends Observable implements Model,Serializable {
 			flag=m.MoveRight();
 			if (flag == false)
 			{
-				System.out.println("left");
+				//System.out.println("left");
 				temp=2;
 			}
 			else
 			{
-				System.out.println("right");
+				//System.out.println("right");
 				temp=3;
 			}
 			break;
@@ -767,12 +767,6 @@ public class Model2048 extends Observable implements Model,Serializable {
 		return solver;
 	}
 	
-	public int getServercommand() {
-		return servercommand;
-	}
-	public void setServercommand(int servercommand) {
-		this.servercommand = servercommand;
-	}
 
 	public int getN() {
 		return N;
@@ -808,6 +802,14 @@ public class Model2048 extends Observable implements Model,Serializable {
 
 	public void setSolver(Solver solver) {
 		this.solver = solver;
+	}
+
+	public int getServercommand() {
+		return servercommand;
+	}
+
+	public void setServercommand(int servercommand) {
+		this.servercommand = servercommand;
 	}
 
 
