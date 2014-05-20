@@ -2,6 +2,7 @@ package controller.boot;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Scanner;
 
 import view.View;
 import model.Model;
@@ -37,11 +38,14 @@ public class Presenter implements Observer{
 					model.saveGame(ui.getString());
 					break;
 				case 500:
-					int c=model.connectServer();
-					model.move(c);
-					break;
-				case 600:
-					model.hintSolver();
+					Scanner scan = new Scanner(System.in);
+					System.out.println("Please insert how much hints do you want");
+					int num = scan.nextInt();
+					for(int i=0; i<num; i++)
+					{
+						int c=model.connectServer();
+						model.move(c);
+					}
 					break;
 				case 1:
 					model.MoveDownLeft();

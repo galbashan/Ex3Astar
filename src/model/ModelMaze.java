@@ -585,21 +585,6 @@ public class ModelMaze extends Observable implements Model,Serializable {
 
 
 	@Override
-	public int hintMinimax() {
-		return 0;
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void hintSolver() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
 	public int move(int i) {
 		return 0;
 		
@@ -608,6 +593,13 @@ public class ModelMaze extends Observable implements Model,Serializable {
 
 	@Override
 	public int connectServer() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public int minimax() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

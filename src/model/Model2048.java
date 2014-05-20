@@ -15,11 +15,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
+import java.util.Scanner;
 
 import client.Client;
 import model.algorithms.minimax.Minimax;
-import model.algorithms.solver.Solver;
-
 
 public class Model2048 extends Observable implements Model,Serializable {
 	
@@ -35,8 +34,6 @@ public class Model2048 extends Observable implements Model,Serializable {
 	private boolean gameOver;
 	private boolean noMoreMoves;
 	private boolean win;
-	private Minimax minimax;
-	private Solver solver;
 	private int servercommand;
 	
 	// Default c'tor
@@ -57,8 +54,6 @@ public class Model2048 extends Observable implements Model,Serializable {
 			}
 		undodata = new LinkedList<int[][]>();
 		undoscore = new LinkedList<Integer>();
-		solver = new Solver();
-		minimax = new Minimax();
 		servercommand = 0;
 	}
 	
@@ -75,9 +70,6 @@ public class Model2048 extends Observable implements Model,Serializable {
 		initFlag();
 		undodata = model.getUndodata();
 		undoscore = model.getUndoscore();
-		minimax=model.getminimax();
-		solver=model.getSolver();
-
 	}
 	
 	// Moves
@@ -455,8 +447,6 @@ public class Model2048 extends Observable implements Model,Serializable {
 		gameOver=false;
 		win = false;
 		terminate = false;
-		minimax = new Minimax();
-		solver = new Solver();
 		setChanged();
 		notifyObservers();
 	}
@@ -553,12 +543,13 @@ public class Model2048 extends Observable implements Model,Serializable {
 	}
 	
 	@Override
-	public int hintMinimax()
+	public int minimax()
 	{
+		Minimax mnx = new Minimax();
 		int i=0;
 		boolean flag;
 		try {
-			i = Minimax.findBestMove(this, 7);
+			i = mnx.findBestMove(this, 7);
 		} catch (CloneNotSupportedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -569,54 +560,30 @@ public class Model2048 extends Observable implements Model,Serializable {
 		case 0:
 			flag=m.MoveUp();
 			if (flag == false)
-			{
-				//System.out.println("down");
 				temp=1;
-			}
 			else
-			{
-				//System.out.println("up");
 				temp=0;
-			}
 			break;
 		case 1:
 			flag=m.MoveDown();
 			if (flag == false)
-			{
-				//System.out.println("up");
 				temp=0;
-			}
 			else
-			{
-				//System.out.println("down");
 				temp=1;
-			}
 			break;
 		case 2:
 			flag=m.MoveLeft();
 			if (flag == false)
-			{
-				//System.out.println("right");
 				temp=3;
-			}
 			else
-			{
-				//System.out.println("left");
 				temp=2;
-			}
 			break;
 		case 3:
 			flag=m.MoveRight();
 			if (flag == false)
-			{
-				//System.out.println("left");
 				temp=2;
-			}
 			else
-			{
-				//System.out.println("right");
 				temp=3;
-			}
 			break;
 		}
 		setChanged();
@@ -624,27 +591,6 @@ public class Model2048 extends Observable implements Model,Serializable {
 		return temp;
 	}
 	
-	public void hintSolver()
-	{
-		
-		int i = solver.findBestMove(this);
-		switch(i){
-		case 0:
-			MoveUp();
-			break;
-		case 1:
-			MoveDown();
-			break;
-		case 2:
-			MoveLeft();
-			break;
-		case 3:
-			MoveRight();
-			break;	
-		}
-		setChanged();
-		notifyObservers();
-	}
 	
 	 public int move(int direction) {    
 		 int points = 0;
@@ -678,6 +624,10 @@ public class Model2048 extends Observable implements Model,Serializable {
 		tc.start();
 		return servercommand;
 	}
+	
+	
+	
+	//setters and getters
 	
 	public boolean[][] getDataflag() {
 		return dataflag;
@@ -753,20 +703,9 @@ public class Model2048 extends Observable implements Model,Serializable {
 		
 	}
 
-
-	public Minimax getminimax() {
-		return minimax;
-	}
-
-
 	public boolean isTerminate() {
 		return terminate;
 	}
-
-	public Solver getSolver() {
-		return solver;
-	}
-	
 
 	public int getN() {
 		return N;
@@ -774,14 +713,6 @@ public class Model2048 extends Observable implements Model,Serializable {
 
 	public void setN(int n) {
 		N = n;
-	}
-
-	public Minimax getMinimax() {
-		return minimax;
-	}
-
-	public void setMinimax(Minimax minimax) {
-		this.minimax = minimax;
 	}
 
 	public void setTerminate(boolean terminate) {
@@ -800,9 +731,6 @@ public class Model2048 extends Observable implements Model,Serializable {
 		this.win = win;
 	}
 
-	public void setSolver(Solver solver) {
-		this.solver = solver;
-	}
 
 	public int getServercommand() {
 		return servercommand;

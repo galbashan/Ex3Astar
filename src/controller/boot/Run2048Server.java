@@ -23,7 +23,7 @@ public class Run2048Server {
 			public void handleClient(BufferedReader inFromClient ,ObjectInputStream obinFromClient ,ObjectOutputStream out2client) throws ClassNotFoundException, IOException, CloneNotSupportedException {
 				boolean flag = true ;
 				Model2048 gm = (Model2048) obinFromClient.readObject();
-				Integer c = gm.hintMinimax();
+				Integer c = gm.minimax();
 				while (flag==true){
 					out2client.flush();
 					out2client.writeObject(c.toString());

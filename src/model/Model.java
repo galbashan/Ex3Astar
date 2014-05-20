@@ -21,9 +21,7 @@ public interface Model {
 	public boolean getNoMoreMoves();
 	public boolean isWin();
 	public int getLength();
-	int hintMinimax();
-	void hintSolver();
+	int minimax();
 	int move(int i);
 	int connectServer();
-	//int getServercommand();
 }
