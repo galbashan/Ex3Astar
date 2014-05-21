@@ -592,15 +592,10 @@ public class ModelMaze extends Observable implements Model,Serializable {
 
 
 	@Override
-	public int connectServer() {
+	public int connectServer(int depth) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 
-	@Override
-	public int minimax() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }

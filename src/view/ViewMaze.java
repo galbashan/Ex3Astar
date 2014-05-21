@@ -491,4 +491,16 @@ public class ViewMaze extends Observable implements View, Runnable {
 	public void setLength(int length) {
 		this.length = length;
 	}
+
+	@Override
+	public int getNum() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getDepth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

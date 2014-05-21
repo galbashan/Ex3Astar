@@ -1,6 +1,5 @@
 package model;
 
-
 public interface Model {
 	
 	boolean MoveUp();
@@ -21,7 +20,7 @@ public interface Model {
 	public boolean getNoMoreMoves();
 	public boolean isWin();
 	public int getLength();
-	int minimax();
 	int move(int i);
-	int connectServer();
+	int connectServer(int depth);
+
 }

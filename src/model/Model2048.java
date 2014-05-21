@@ -5,9 +5,12 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +38,7 @@ public class Model2048 extends Observable implements Model,Serializable {
 	private boolean noMoreMoves;
 	private boolean win;
 	private int servercommand;
+	private int depth;
 	
 	// Default c'tor
 	public Model2048(){
@@ -55,6 +59,8 @@ public class Model2048 extends Observable implements Model,Serializable {
 		undodata = new LinkedList<int[][]>();
 		undoscore = new LinkedList<Integer>();
 		servercommand = 0;
+		depth = 7;
+		
 	}
 	
 	// copy c'tor
@@ -70,6 +76,7 @@ public class Model2048 extends Observable implements Model,Serializable {
 		initFlag();
 		undodata = model.getUndodata();
 		undoscore = model.getUndoscore();
+		depth = model.getDepth();
 	}
 	
 	// Moves
@@ -447,6 +454,7 @@ public class Model2048 extends Observable implements Model,Serializable {
 		gameOver=false;
 		win = false;
 		terminate = false;
+		depth = 7;
 		setChanged();
 		notifyObservers();
 	}
@@ -542,14 +550,13 @@ public class Model2048 extends Observable implements Model,Serializable {
 		return true;
 	}
 	
-	@Override
-	public int minimax()
+	public int minimax(int depth)
 	{
 		Minimax mnx = new Minimax();
 		int i=0;
 		boolean flag;
 		try {
-			i = mnx.findBestMove(this, 7);
+			i = mnx.findBestMove(this, depth);
 		} catch (CloneNotSupportedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -617,14 +624,14 @@ public class Model2048 extends Observable implements Model,Serializable {
 	}
 	 
 	
-	public int connectServer() {
+	public int connectServer(int depth) {
 		
+		this.depth = depth;
 		Client c = new Client(this);
 		Thread tc=new Thread(c, "ClientThread");
 		tc.start();
 		return servercommand;
 	}
-	
 	
 	
 	//setters and getters
@@ -738,6 +745,14 @@ public class Model2048 extends Observable implements Model,Serializable {
 
 	public void setServercommand(int servercommand) {
 		this.servercommand = servercommand;
+	}
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
 	}
 
 
