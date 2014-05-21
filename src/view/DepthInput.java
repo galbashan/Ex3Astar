@@ -87,11 +87,4 @@ public class DepthInput extends Dialog {
 	    return value;
 	  }
 	 
-	  /*
-	  public static void main(String[] args) {
-	    Shell shell = new Shell();
-	    NumberInput dialog = new NumberInput(shell);
-	    System.out.println(dialog.open());
-	  }
-	  */
 	}

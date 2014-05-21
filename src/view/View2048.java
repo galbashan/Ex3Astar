@@ -276,9 +276,9 @@ public class View2048 extends Observable implements View, Runnable {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				userCommand = 500;
-				 NumberInput numdialog = new NumberInput(new Shell(),1);
+				 NumberInput numdialog = new NumberInput(shell);
 				 num = numdialog.open();
-				 DepthInput depthdialog = new DepthInput(new Shell(),1);
+				 DepthInput depthdialog = new DepthInput(shell);
 				 depth = depthdialog.open();
 				setChanged();
 				notifyObservers(); 
