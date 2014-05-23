@@ -592,16 +592,15 @@ public class ModelMaze extends Observable implements Model,Serializable {
 
 
 	@Override
-	public int connectServer(int depth) {
+	public void connectServer(int depth, int loop) {
 		// TODO Auto-generated method stub
-		return 0;
 	}
 
 
 	@Override
-	public int getNextMove() {
+	public int[] getNextMove() {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 

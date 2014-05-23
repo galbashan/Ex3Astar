@@ -37,16 +37,15 @@ public class Presenter implements Observer{
 					model.saveGame(ui.getString());
 					break;
 				case 500:
-					int c=0;
 					try {
-						model.connectServer(ui.getDepth());
-						c = model.getNextMove();
+						model.connectServer(ui.getDepth(),ui.getNum());
 					} catch (InterruptedException e) {
 						
 						e.printStackTrace();
 					}
+					int[] moves = model.getNextMove();
 					for (int i=0; i<ui.getNum(); i++)
-						model.move(c);
+						model.move(moves[i]);
 					break;
 				case 1:
 					model.MoveDownLeft();

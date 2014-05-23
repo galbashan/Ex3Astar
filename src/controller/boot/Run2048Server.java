@@ -16,7 +16,7 @@ public class Run2048Server {
 
 	
 	public static void main(String[] args) throws InterruptedException, UnknownHostException, IOException{
-		Server s= new Server(5002,1,new ClientHandler() {
+		Server s= new Server(5000,1,new ClientHandler() {
 			
 			
 			@Override

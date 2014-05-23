@@ -37,7 +37,7 @@ public class Model2048 extends Observable implements Model,Serializable {
 	private boolean gameOver;
 	private boolean noMoreMoves;
 	private boolean win;
-	private int nextMove;
+	private int[] nextMove;
 	private int depth;
 	private String error;
 	
@@ -683,20 +683,17 @@ public class Model2048 extends Observable implements Model,Serializable {
 	 * connect to server to get a hint
 	 * @throws InterruptedException 
 	 */
-	public int connectServer(int depth) throws InterruptedException {
+	public void connectServer(int depth, int loop) throws InterruptedException {
 		
 		this.depth = depth;
 		error = null;
-		Client c = new Client(this);
-		Thread tc=new Thread(c, "ClientThread");
+		Client c = new Client(this, loop);
+		Thread tc = new Thread(c, "ClientThread");
 		tc.start();
 		tc.join();
 		if (c.getError() != null){
 			error = c.getError();
-			return -1;
 		}
-		System.out.println(c.getError());
-		return 0;
 	}
 	
 	
@@ -817,11 +814,11 @@ public class Model2048 extends Observable implements Model,Serializable {
 	}
 
 
-	public int getNextMove() {
+	public int[] getNextMove() {
 		return nextMove;
 	}
 
-	public void setNextMove(int nextMove) {
+	public void setNextMove(int[] nextMove) {
 		this.nextMove = nextMove;
 	}
 
