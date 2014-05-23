@@ -619,7 +619,7 @@ public class Model2048 extends Observable implements Model,Serializable {
 	        	MoveRight();
 	            points=getScore();
 	            break;
-	        }      
+	        }
 		return points;
 	}
 	 

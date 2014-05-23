@@ -46,7 +46,7 @@ public class Minimax{
             if(player == Player.USER) {
                 bestScore = Integer.MIN_VALUE;
 
-                for(int i=0; i<4; i++) {
+                for(int i=0; i<m.getLength(); i++) {
                     Model2048 newM = new Model2048(m);
 
                     int points=newM.move(i);

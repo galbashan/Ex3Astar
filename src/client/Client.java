@@ -17,11 +17,13 @@ import java.net.UnknownHostException;
 public class Client implements Runnable{
 	
 	Model2048 m;
+	String error;
 
 	
 	public Client (Model2048 model) 
 	{
 		this.m = model;
+		error = null;
 	}
 	
 	public void run() 
@@ -30,11 +32,11 @@ public class Client implements Runnable{
 			int c=connectServer();
 			m.setServercommand(c);
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			error = e.getMessage();
+			//e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			error = e.getMessage();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -43,7 +45,7 @@ public class Client implements Runnable{
 	{
 
 		System.out.println("Client started:...");
-		Socket myserver= new Socket(InetAddress.getLocalHost(),5000);
+		Socket myserver= new Socket(InetAddress.getLocalHost(),5002);
 		System.out.println("Connected to server");
 		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(myserver.getInputStream()));
 		PrintWriter out2server = new PrintWriter(new OutputStreamWriter(myserver.getOutputStream()));	
@@ -79,6 +81,10 @@ public class Client implements Runnable{
 		myserver.close();
 		return intcommand;
 		
+	}
+
+	public String getError() {
+		return error;
 	}
 
 }

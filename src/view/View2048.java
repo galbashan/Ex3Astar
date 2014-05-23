@@ -22,6 +22,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
@@ -160,6 +162,151 @@ public class View2048 extends Observable implements View, Runnable {
 			}
 		});
 		
+		//Menu
+	    // Create file menu
+	    Menu menuBar = new Menu(shell, SWT.BAR);
+	    MenuItem fileMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
+	    fileMenuHeader.setText("File");
+
+	    Menu fileMenu = new Menu(shell, SWT.DROP_DOWN);
+	    fileMenuHeader.setMenu(fileMenu);
+	    
+	    // Create save option in file menu
+	    MenuItem fileSaveItem = new MenuItem(fileMenu, SWT.PUSH);
+	    fileSaveItem.setText("Save");
+	    Image saveImageMenu = new Image(display, "resources/save.jpg");
+	    fileSaveItem.setImage(saveImageMenu);
+	    fileSaveItem.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				userCommand = 400;
+				FileDialog saveFd = new FileDialog(shell, SWT.SAVE);
+				saveFd.setText("Save");
+				saveFd.setFilterPath("C:/");
+				String[] filterExtension = { "*.xml", "*.txt" };
+				saveFd.setFilterExtensions(filterExtension);
+				file = saveFd.open();
+				setChanged();
+				notifyObservers();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	    
+	    // Create load option in file menu
+	    MenuItem fileLoadItem = new MenuItem(fileMenu, SWT.PUSH);
+	    fileLoadItem.setText("Load");
+	    Image loadImageMenu = new Image(display, "resources/load.jpg");
+	    fileLoadItem.setImage(loadImageMenu);
+	    fileLoadItem.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				userCommand = 300;
+				FileDialog loadFd = new FileDialog(shell, SWT.OPEN);
+				loadFd.setText("Open");
+				loadFd.setFilterPath("C:/");
+				String[] filterExtension = { "*.xml", "*.txt" };
+				loadFd.setFilterExtensions(filterExtension);
+				file = loadFd.open();
+				setChanged();
+				notifyObservers();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	    
+	    // Create edit menu
+	    MenuItem editMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
+	    editMenuHeader.setText("Edit");
+
+	    Menu editMenu = new Menu(shell, SWT.DROP_DOWN);
+	    editMenuHeader.setMenu(editMenu);
+	    
+	    // Create undo option in edit menu
+	    MenuItem editUndoItem = new MenuItem(editMenu, SWT.PUSH);
+	    editUndoItem.setText("Undo");
+	    Image undoImageMenu = new Image(display, "resources/undo.jpg");
+	    editUndoItem.setImage(undoImageMenu);
+	    editUndoItem.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				userCommand = 100;
+				setChanged();
+				notifyObservers();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	    
+	    // Create hint option in edit menu
+	    MenuItem editHintItem = new MenuItem(editMenu, SWT.PUSH);
+	    editHintItem.setText("Hint");
+	    Image hintImageMenu = new Image(display, "resources/hint.gif");
+	    editHintItem.setImage(hintImageMenu);
+	    editHintItem.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				messageBoxRestart = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+				messageBoxRestart.setMessage("Do you really want to restart the game?");
+				messageBoxRestart.setText("Restart game");
+				int response = messageBoxRestart.open();
+				if (response == SWT.YES) {
+					userCommand = 500;
+					setChanged();
+					notifyObservers();
+				}
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+
+	    // Create restart option in edit menu
+	    MenuItem editRestartItem = new MenuItem(editMenu, SWT.PUSH);
+	    editRestartItem.setText("Restart");
+	    Image restartImageMenu = new Image(display, "resources/restart.jpg");
+	    editRestartItem.setImage(restartImageMenu);
+	    editRestartItem.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				messageBoxRestart = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+				messageBoxRestart.setMessage("Do you really want to restart the game?");
+				messageBoxRestart.setText("Restart game");
+				int response = messageBoxRestart.open();
+				if (response == SWT.YES) {
+					userCommand = 200;
+					setChanged();
+					notifyObservers();
+				}
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		// Undo button
 		Image undoImage = new Image(display, "resources/undo.jpg");
 		Button undo = new Button(shell, SWT.PUSH);
@@ -290,6 +437,8 @@ public class View2048 extends Observable implements View, Runnable {
 
 			}
 		});
+		
+
 		
 		shell.open();
 	}

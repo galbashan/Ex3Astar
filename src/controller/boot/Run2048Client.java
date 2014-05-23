@@ -5,7 +5,7 @@ import view.View2048;
 import model.Model2048;
 
 
-public class Run2048 {
+public class Run2048Client {
 	
 	public static void main(String[] args) {
 		

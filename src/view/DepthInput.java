@@ -27,11 +27,10 @@ public class DepthInput extends Dialog {
 
 	  public int open() {
 	    Shell parent = getParent();
-	    final Shell shell =
-	      new Shell(parent, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
+	    final Shell shell = new Shell(parent, SWT.TITLE | SWT.BORDER | SWT.APPLICATION_MODAL);
 	    shell.setText("Hint");
 	 
-	    shell.setLayout(new GridLayout(2, true));
+	    shell.setLayout(new GridLayout(2, false));
 	 
 	    Label label = new Label(shell, SWT.NULL);
 	    label.setText("Please insert depth (0-7)");
