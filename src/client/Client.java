@@ -18,6 +18,7 @@ public class Client implements Runnable{
 	
 	Model2048 m;
 	String error;
+	int loop;
 
 	
 	public Client (Model2048 model) 
@@ -29,13 +30,14 @@ public class Client implements Runnable{
 	public void run() 
 	{
 		try {
-			int c = connectServer();
-			m.setServercommand(c);
+			m.setNextMove(connectServer());
 		} catch (UnknownHostException e) {
 			error = e.getMessage();
+			//System.out.println(error);
 			//e.printStackTrace();
 		} catch (IOException e) {
 			error = e.getMessage();
+			//System.out.println(error);
 			//e.printStackTrace();
 		}
 	}
@@ -49,16 +51,18 @@ public class Client implements Runnable{
 		System.out.println("Connected to server");
 		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(myserver.getInputStream()));
 		PrintWriter out2server = new PrintWriter(new OutputStreamWriter(myserver.getOutputStream()));	
-		ObjectOutputStream obout2server = new ObjectOutputStream(myserver.getOutputStream());		 
-		boolean flag=true;
-		Model2048 ng= new Model2048(m);
-		int intcommand = 0 ;
+		ObjectOutputStream obout2server = new ObjectOutputStream(myserver.getOutputStream());
 		String command = "NotSet";
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
+		Model2048 ng= new Model2048(m);
+		
+		boolean flag=true;
+		
+		int intcommand = 0 ;
 		obout2server.writeObject(ng);
 		obout2server.flush();
 		command = inFromServer.readLine();
-		
+			
 		if (command.contains("0"))
 			intcommand=0;
 		else if (command.contains("1"))
@@ -72,7 +76,7 @@ public class Client implements Runnable{
 			out2server.flush();
 			flag = false;
 		}
-
+			
 		out2server.flush();
 		inFromServer.close();
 		out2server.close();

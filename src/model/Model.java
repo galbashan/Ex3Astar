@@ -21,6 +21,7 @@ public interface Model {
 	public boolean isWin();
 	public int getLength();
 	int move(int i);
-	int connectServer(int depth);
-
+	public int connectServer(int depth) throws InterruptedException;
+	public int getNextMove();
+	public String getError();
 }

@@ -598,4 +598,18 @@ public class ModelMaze extends Observable implements Model,Serializable {
 	}
 
 
+	@Override
+	public int getNextMove() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public String getError() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

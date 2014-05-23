@@ -6,6 +6,7 @@ public interface View {
 	void displayScore(int score);
 	void displayGameOver(boolean gameOver);
 	void displayNoMoreMoves(boolean noMoreMoves);
+	void displayServerError (String error);
 	int getUserCommand();
 	String getString();
 	void displayWin(boolean win);

@@ -5,9 +5,12 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
+import java.util.Scanner;
 
 import client.Client;
 import model.algorithms.minimax.Minimax;
@@ -33,10 +37,13 @@ public class Model2048 extends Observable implements Model,Serializable {
 	private boolean gameOver;
 	private boolean noMoreMoves;
 	private boolean win;
-	private int servercommand;
+	private int nextMove;
 	private int depth;
+	private String error;
 	
-	// Default c'tor
+	/**
+	 Default c'tor
+	 */
 	public Model2048(){
 		N=4;
 		score = 0;
@@ -54,12 +61,11 @@ public class Model2048 extends Observable implements Model,Serializable {
 			}
 		undodata = new LinkedList<int[][]>();
 		undoscore = new LinkedList<Integer>();
-		servercommand = 0;
-		depth = 7;
-		
 	}
 	
-	// copy c'tor
+	/**
+	 Copy c'tor
+	 */
 	public Model2048(Model2048 model){
 		this.setData(model.dataClone());
 		N=4;
@@ -72,10 +78,12 @@ public class Model2048 extends Observable implements Model,Serializable {
 		initFlag();
 		undodata = model.getUndodata();
 		undoscore = model.getUndoscore();
-		depth = model.getDepth();
+		this.depth = model.getDepth();
 	}
 	
-	// Moves
+	/**
+		Move Up
+	 */
 	@Override
 	public boolean MoveUp() {
 		undodata.addLast(dataClone());
@@ -133,7 +141,10 @@ public class Model2048 extends Observable implements Model,Serializable {
 		}
 		
 	}
-
+	
+	/**
+	 	Move Down
+	 */
 	@Override
 	public boolean MoveDown() {
 		undodata.addLast(dataClone());
@@ -192,6 +203,10 @@ public class Model2048 extends Observable implements Model,Serializable {
 		}
 	}
 
+	
+	/**
+ 		Move Left
+	 */
 	@Override
 	public boolean MoveLeft() {
 		undodata.addLast(dataClone());
@@ -250,7 +265,11 @@ public class Model2048 extends Observable implements Model,Serializable {
 			return false;
 		}
 	}
-
+	
+	
+	/**
+ 		Move Right
+	 */
 	@Override
 	public boolean MoveRight() {
 		undodata.addLast(dataClone());
@@ -308,7 +327,9 @@ public class Model2048 extends Observable implements Model,Serializable {
 		}
 	}
 
-	// Perform undo
+	/**
+ 		Perform Undo
+	 */
 	public void undo()
 	{
 		if (undodata.size() != 0){
@@ -323,10 +344,10 @@ public class Model2048 extends Observable implements Model,Serializable {
 	}
 	
 	
-	public int[][] getData() {
-		return data;
-	}
 	
+	/**
+ 		Print the board
+	 */
 	public void print() {
 		for (int i=0; i < data.length; i++ )
 		{
@@ -338,6 +359,9 @@ public class Model2048 extends Observable implements Model,Serializable {
 		}
 	}
 	
+	/**
+ 		Return how much empty cells there are in the board
+	 */
 	public int getEmptyCells()
 	{
 		HashMap<Integer, Point> freepoints = new HashMap<Integer, Point>();
@@ -352,6 +376,9 @@ public class Model2048 extends Observable implements Model,Serializable {
 		return count;
 	}
 	
+	/**
+		Return linked list of empty cell id's
+	 */
 	public List<Integer> getEmptyCellIds() {
         List<Integer> cellList = new ArrayList<>();
         
@@ -371,7 +398,9 @@ public class Model2048 extends Observable implements Model,Serializable {
 	        }
 	    }
 	
-	// Add new break after user's action
+	 /**
+		Add a new brick after user action
+	 */
 	private boolean addBrick()
 	{
 		HashMap<Integer, Point> freepoints = new HashMap<Integer, Point>();
@@ -393,6 +422,9 @@ public class Model2048 extends Observable implements Model,Serializable {
 		return true;
 	}
 	
+	/**
+		Init the board flags
+	 */
 	private void initFlag()
 	{
 		for (int i=0; i < N; i++ )
@@ -400,7 +432,9 @@ public class Model2048 extends Observable implements Model,Serializable {
 				dataflag[i][j]=true;	
 	}
 	
-	// Check if the user has a 2048 tile
+	/**
+	 Check if the user has a 2048 tile
+	*/
 	private boolean checkWin(int c)
 	{
 		if(c == 2048)
@@ -413,7 +447,10 @@ public class Model2048 extends Observable implements Model,Serializable {
 		return false;
 	}
 	
-	// Check if all the board full
+	/**
+	 * Check if the board is full
+	 * @return boolean
+	 */
 	private boolean checkLoose()
 	{
 		if (isEmptyCells() == true)
@@ -434,7 +471,9 @@ public class Model2048 extends Observable implements Model,Serializable {
 		return true;
 	}
 	
-	// Create new game
+	/**
+	 * create new game
+	 */
 	@Override
 	public void restartGame()
 	{
@@ -450,12 +489,15 @@ public class Model2048 extends Observable implements Model,Serializable {
 		gameOver=false;
 		win = false;
 		terminate = false;
-		depth = 7;
+		//depth = 7;
 		setChanged();
 		notifyObservers();
 	}
 
-	// Clone the matrix's data
+	/**
+	 * clone the matrix data
+	 * @return int[][]
+	 */
 	public int[][] dataClone()
 	{
 		int[][] c = new int[N][N];
@@ -465,14 +507,19 @@ public class Model2048 extends Observable implements Model,Serializable {
 		return c;
 	}
 	
-	// Clone the score
+	/**
+	 * clone the score
+	 * @return
+	 */
 	private int scoreClone()
 	{
 		int c = score;
 		return c;
 	}
 	
-	// Save the game to a file
+	/**
+	 * save the game to file
+	 */
 	public boolean saveGame(String str)
 	{
 		if (str == null){
@@ -491,7 +538,9 @@ public class Model2048 extends Observable implements Model,Serializable {
 		 return true;
 	}
 	
-	// Load a saved game
+	/**
+	 * load a saved game
+	 */
 	@Override
 	public boolean loadGame(String str) 
 	{
@@ -517,12 +566,11 @@ public class Model2048 extends Observable implements Model,Serializable {
 		return true;
 	}
 	
-	@Override
-	public int getScore() {
-		return score;
-	}
+
 	
-	// Check if there are empty cells
+	/**
+	 * check if there are empty cells 
+	 */
 	private boolean isEmptyCells()
 	{
 		int count = 0;
@@ -536,6 +584,11 @@ public class Model2048 extends Observable implements Model,Serializable {
 		else return true;
 	}
 	
+	/**
+	 * compare between to model2048
+	 * @param model2048
+	 * @return boolean
+	 */
 	public boolean isEqual(Model2048 m)
 	{
 		int[][] newData = m.getData();
@@ -546,6 +599,11 @@ public class Model2048 extends Observable implements Model,Serializable {
 		return true;
 	}
 	
+	/**
+	 * minimax algorithm to solve 2048 game
+	 * @param depth
+	 * @return
+	 */
 	public int minimax(int depth)
 	{
 		Minimax mnx = new Minimax();
@@ -594,7 +652,9 @@ public class Model2048 extends Observable implements Model,Serializable {
 		return temp;
 	}
 	
-	
+	/**
+	 * move the board 
+	 */
 	 public int move(int direction) {    
 		 int points = 0;
 		 switch (direction)
@@ -619,18 +679,40 @@ public class Model2048 extends Observable implements Model,Serializable {
 		return points;
 	}
 	 
-	
-	public int connectServer(int depth) {
+	/**
+	 * connect to server to get a hint
+	 * @throws InterruptedException 
+	 */
+	public int connectServer(int depth) throws InterruptedException {
 		
 		this.depth = depth;
+		error = null;
 		Client c = new Client(this);
 		Thread tc=new Thread(c, "ClientThread");
 		tc.start();
-		return servercommand;
+		tc.join();
+		if (c.getError() != null){
+			error = c.getError();
+			return -1;
+		}
+		System.out.println(c.getError());
+		return 0;
 	}
 	
 	
 	//setters and getters
+	
+	/**
+		Return the board
+	 */
+	public int[][] getData() {
+		return data;
+	}
+	
+	@Override
+	public int getScore() {
+		return score;
+	}
 	
 	public boolean[][] getDataflag() {
 		return dataflag;
@@ -735,12 +817,12 @@ public class Model2048 extends Observable implements Model,Serializable {
 	}
 
 
-	public int getServercommand() {
-		return servercommand;
+	public int getNextMove() {
+		return nextMove;
 	}
 
-	public void setServercommand(int servercommand) {
-		this.servercommand = servercommand;
+	public void setNextMove(int nextMove) {
+		this.nextMove = nextMove;
 	}
 
 	public int getDepth() {
@@ -749,6 +831,10 @@ public class Model2048 extends Observable implements Model,Serializable {
 
 	public void setDepth(int depth) {
 		this.depth = depth;
+	}
+
+	public String getError() {
+		return error;
 	}
 
 

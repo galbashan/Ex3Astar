@@ -2,6 +2,7 @@ package controller.boot;
 
 import java.util.Observable;
 import java.util.Observer;
+
 import view.View;
 import model.Model;
 
@@ -36,11 +37,16 @@ public class Presenter implements Observer{
 					model.saveGame(ui.getString());
 					break;
 				case 500:
-					for(int i=0; i<ui.getNum(); i++)
-					{
-						int c = model.connectServer(ui.getDepth());
-						model.move(c);
+					int c=0;
+					try {
+						model.connectServer(ui.getDepth());
+						c = model.getNextMove();
+					} catch (InterruptedException e) {
+						
+						e.printStackTrace();
 					}
+					for (int i=0; i<ui.getNum(); i++)
+						model.move(c);
 					break;
 				case 1:
 					model.MoveDownLeft();
@@ -77,6 +83,9 @@ public class Presenter implements Observer{
 				ui.displayGameOver(model.getGameOver());
 				ui.displayNoMoreMoves(model.getNoMoreMoves());
 				ui.displayWin(model.isWin());
+				if (model.getError() != null){
+					ui.displayServerError(model.getError());
+				}
 			}
 		}
 		

@@ -503,4 +503,10 @@ public class ViewMaze extends Observable implements View, Runnable {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public void displayServerError(String error) {
+		// TODO Auto-generated method stub
+		
+	}
 }

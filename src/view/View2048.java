@@ -42,6 +42,7 @@ public class View2048 extends Observable implements View, Runnable {
 	MessageBox messageBoxNoMoreMoves;
 	MessageBox messageBoxWin;
 	MessageBox messageBoxClose;
+	MessageBox messageBoxError;
 	String file;
 	int flag;
 	int length;
@@ -51,7 +52,10 @@ public class View2048 extends Observable implements View, Runnable {
 	public View2048() {
 		userCommand = 200;
 	}
-
+	
+	/**
+	 * Initialize the shell
+	 */
 	private void initComponents() {
 		display = new Display();
 		shell = new Shell(display);
@@ -456,7 +460,12 @@ public class View2048 extends Observable implements View, Runnable {
 		}
 		display.dispose();
 	}
-
+	
+	/**
+	 * Perform changes in board according user's drag mouse
+	 * @param oldPoint
+	 * @param newPoint
+	 */
 	private void checkMouseDirection(Point oldPoint, Point newPoint)
 	{
 		boolean up = false;
@@ -514,31 +523,41 @@ public class View2048 extends Observable implements View, Runnable {
 		}
 	}
 	
-	// Update the board in the GUI
+	/**
+	 * Update the board in the GUI
+	 */
 	@Override
 	public void displayData(int[][] data) {
 		board.setBoardData(data);
 		board.forceFocus();
 	}
 
-	// User command for updating the presenter
+	/**
+	 * User command for updating the presenter
+	 */
 	@Override
 	public int getUserCommand() {
 		return userCommand;
 	}
 
-	// Get the file path that the user save or load
+	/**
+	 * Get the file path that the user save or load
+	 */
 	public String getString() {
 		return file;
 	}
 
-	// Update the score in the GUI
+	/**
+	 * Update the score in the GUI
+	 */
 	@Override
 	public void displayScore(int score) {
 		scoreLabel.setText("Score:    " + score);
 	}
 
-	// Display game over message box 
+	/**
+	 * Display game over message box 
+	 */
 	@Override
 	public void displayGameOver(boolean gameOver) {
 		if (gameOver == true) {
@@ -549,7 +568,9 @@ public class View2048 extends Observable implements View, Runnable {
 		}
 	}
 	
-	// Display no more moves message box
+	/**
+	 * Display no more moves message box
+	 */
 	@Override
 	public void displayNoMoreMoves(boolean noMoreMoves) {
 		if (noMoreMoves == true) {
@@ -560,7 +581,9 @@ public class View2048 extends Observable implements View, Runnable {
 		}
 	}
 	
-	// Display win message box
+	/**
+	 * Display win message box
+	 */
 	@Override
 	public void displayWin(boolean win) {
 		if (win == true) {
@@ -571,7 +594,18 @@ public class View2048 extends Observable implements View, Runnable {
 		}
 
 	}
-
+	
+	/**
+	 * Display error message when connection to server failed
+	 */
+	@Override
+	public void displayServerError (String error){
+		messageBoxError = new MessageBox(shell, SWT.ICON_ERROR | SWT.OK);
+		messageBoxError.setMessage(error);
+		messageBoxError.setText("Connection failed");
+		messageBoxError.open();
+	}
+	
 	@Override
 	public void setLength(int length) {
 		this.length = length;
