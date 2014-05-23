@@ -21,17 +21,17 @@ public class Server extends Thread{
 	int noc;
 	
 	public Server(int port,int noc, ClientHandler ch) {
-		this.port=port;
-		this.stop=false;
-		this.ch=ch;
-		this.noc=noc;
+		this.port = port;
+		this.stop = false;
+		this.ch = ch;
+		this.noc = noc;
 	}
 	
 	
 
 	public void run() {
 		try {
-			server=new ServerSocket(port);
+			server = new ServerSocket(port);
 			server.setSoTimeout(1000);
 			
 			ExecutorService tp = Executors.newFixedThreadPool(noc);

@@ -29,7 +29,7 @@ public class Client implements Runnable{
 	public void run() 
 	{
 		try {
-			int c=connectServer();
+			int c = connectServer();
 			m.setServercommand(c);
 		} catch (UnknownHostException e) {
 			error = e.getMessage();

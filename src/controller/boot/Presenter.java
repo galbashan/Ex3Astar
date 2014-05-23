@@ -38,7 +38,7 @@ public class Presenter implements Observer{
 				case 500:
 					for(int i=0; i<ui.getNum(); i++)
 					{
-						int c=model.connectServer(ui.getDepth());
+						int c = model.connectServer(ui.getDepth());
 						model.move(c);
 					}
 					break;
