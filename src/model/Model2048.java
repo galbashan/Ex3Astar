@@ -5,12 +5,9 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,8 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
-import java.util.Scanner;
-
 import client.Client;
 import model.algorithms.minimax.Minimax;
 
@@ -40,6 +35,7 @@ public class Model2048 extends Observable implements Model,Serializable {
 	private int[] nextMove;
 	private int depth;
 	private String error;
+	private int loop;
 	
 	/**
 	 Default c'tor
@@ -79,6 +75,7 @@ public class Model2048 extends Observable implements Model,Serializable {
 		undodata = model.getUndodata();
 		undoscore = model.getUndoscore();
 		this.depth = model.getDepth();
+		this.loop = model.getLoop();
 	}
 	
 	/**
@@ -686,8 +683,9 @@ public class Model2048 extends Observable implements Model,Serializable {
 	public void connectServer(int depth, int loop) throws InterruptedException {
 		
 		this.depth = depth;
+		this.loop = loop;
 		error = null;
-		Client c = new Client(this, loop);
+		Client c = new Client(this);
 		Thread tc = new Thread(c, "ClientThread");
 		tc.start();
 		tc.join();
@@ -832,6 +830,10 @@ public class Model2048 extends Observable implements Model,Serializable {
 
 	public String getError() {
 		return error;
+	}
+
+	public int getLoop() {
+		return loop;
 	}
 
 

@@ -493,7 +493,7 @@ public class ViewMaze extends Observable implements View, Runnable {
 	}
 
 	@Override
-	public int getNum() {
+	public int getLoop() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

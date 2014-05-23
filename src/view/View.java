@@ -11,6 +11,6 @@ public interface View {
 	String getString();
 	void displayWin(boolean win);
 	void setLength(int length);
-	int getNum();
+	int getLoop();
 	int getDepth();
 }

@@ -21,15 +21,21 @@ public class Run2048Server {
 			
 			@Override
 			public void handleClient(BufferedReader inFromClient ,ObjectInputStream obinFromClient ,ObjectOutputStream out2client) throws ClassNotFoundException, IOException, CloneNotSupportedException {
-				boolean flag = true ;
+				boolean flag = true;
 				Model2048 gm = (Model2048) obinFromClient.readObject();
 				System.out.println("depth: "+gm.getDepth());
-				Integer c = gm.minimax(gm.getDepth());
+				int[] hints = new int[gm.getLoop()];
+				for(int i=0; i<gm.getLoop(); i++)
+				{
+					int c = gm.minimax(gm.getDepth());
+					System.out.println("server Command: " + c);
+					hints[i] = c;
+					gm.move(c);
+				}
 				while (flag==true){
 					out2client.flush();
-					out2client.writeObject(c.toString());
+					out2client.writeObject(hints);
 					out2client.flush();
-					System.out.println("SERVER - Command  : " + c);
 					flag = false;
 				}	
 			}
@@ -46,7 +52,6 @@ public class Run2048Server {
 		Thread.sleep(1000000000);
 		s.close();
 	
-		
 	}
 	
 }

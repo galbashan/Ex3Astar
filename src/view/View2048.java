@@ -46,7 +46,7 @@ public class View2048 extends Observable implements View, Runnable {
 	String file;
 	int flag;
 	int length;
-	int num;
+	int loop;
 	int depth;
 
 	public View2048() {
@@ -428,7 +428,7 @@ public class View2048 extends Observable implements View, Runnable {
 			public void widgetSelected(SelectionEvent e) {
 				userCommand = 500;
 				 NumberInput numdialog = new NumberInput(shell);
-				 num = numdialog.open();
+				 loop = numdialog.open();
 				 DepthInput depthdialog = new DepthInput(shell);
 				 depth = depthdialog.open();
 				setChanged();
@@ -612,8 +612,8 @@ public class View2048 extends Observable implements View, Runnable {
 	}
 
 	@Override
-	public int getNum() {
-		return num;
+	public int getLoop() {
+		return loop;
 	}
 	
 	public int getDepth() {

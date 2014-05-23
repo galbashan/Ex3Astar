@@ -38,13 +38,12 @@ public class Presenter implements Observer{
 					break;
 				case 500:
 					try {
-						model.connectServer(ui.getDepth(),ui.getNum());
+						model.connectServer(ui.getDepth(),ui.getLoop());
 					} catch (InterruptedException e) {
-						
 						e.printStackTrace();
 					}
 					int[] moves = model.getNextMove();
-					for (int i=0; i<ui.getNum(); i++)
+					for (int i=0; i<ui.getLoop(); i++)
 						model.move(moves[i]);
 					break;
 				case 1:
