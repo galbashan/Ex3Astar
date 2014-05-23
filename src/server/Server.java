@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -43,26 +42,24 @@ public class Server extends Thread{
 					System.out.println("Client connected");
 					final BufferedReader inFromClient=new BufferedReader(new InputStreamReader(someClient.getInputStream()));
 					final ObjectInputStream obinFromClient = new ObjectInputStream(someClient.getInputStream());
-					final PrintWriter out2client = new PrintWriter(/*new OutputStreamWriter*/(someClient.getOutputStream()));
 					final ObjectOutputStream out2Server = new ObjectOutputStream(someClient.getOutputStream());
 					tp.execute(new Runnable() {
 						@Override
 						public void run() {
 							try {
 								ch.handleClient(inFromClient,obinFromClient, out2Server);
-							} catch (ClassNotFoundException e1) {
+							} catch (ClassNotFoundException e) {
 								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							} catch (IOException e1) {
+								e.printStackTrace();
+							} catch (IOException e) {
 								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								e.printStackTrace();
 							} catch (CloneNotSupportedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}							
 							try {
 								inFromClient.close();
-								out2client.close();
 								someClient.close();
 								obinFromClient.close();
 							} catch (IOException e) {
