@@ -92,9 +92,27 @@ public class View2048 extends Observable implements View, Runnable {
 				messageBoxClose.setText("Exit");
 				int response = messageBoxClose.open();
 				if (response == SWT.YES) {
-					System.exit(0);
+					messageBoxSave = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+					messageBoxSave.setMessage("Do you want to save the game?");
+					messageBoxSave.setText("Exit");
+					response = messageBoxSave.open();
+					if (response == SWT.YES){
+						userCommand = 400;
+						FileDialog saveFd = new FileDialog(shell, SWT.SAVE);
+						saveFd.setText("Save");
+						saveFd.setFilterPath("C:/");
+						String[] filterExtension = { "*.xml", "*.txt" };
+						saveFd.setFilterExtensions(filterExtension);
+						file = saveFd.open();
+						setChanged();
+						notifyObservers();
+						System.exit(0);
+					}
+					else{
+						System.exit(0);
+					}
 				}
-				else{
+				else {
 					e.doit = false;
 				}
 			}
