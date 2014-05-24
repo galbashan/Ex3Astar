@@ -37,7 +37,8 @@ public class View2048 extends Observable implements View, Runnable {
 	Point newPoint;
 	Point oldPoint;
 	boolean dragFlag;
-	MessageBox messageBoxRestart;
+	MessageBox messageBoxNewGame;
+	MessageBox messageBoxSave;
 	MessageBox messageBoxGameOver;
 	MessageBox messageBoxNoMoreMoves;
 	MessageBox messageBoxWin;
@@ -109,207 +110,62 @@ public class View2048 extends Observable implements View, Runnable {
 		scoreLabel = new Label(shell, SWT.FILL);
 		scoreLabel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
 
-		// Game board
-		board = new Board(shell, SWT.BORDER, length);
-		board.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 8));
-		board.setBackground(new Color(display, 187, 174, 160));
-		board.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				if (e.keyCode == SWT.ARROW_UP) {
-					userCommand = 8;
-					setChanged();
-					notifyObservers();
-				}
-				if (e.keyCode == SWT.ARROW_DOWN) {
-					userCommand = 2;
-					setChanged();
-					notifyObservers();
-				}
-				if (e.keyCode == SWT.ARROW_LEFT) {
-					userCommand = 4;
-					setChanged();
-					notifyObservers();
-				}
-				if (e.keyCode == SWT.ARROW_RIGHT) {
-					userCommand = 6;
-					setChanged();
-					notifyObservers();
-				}
-			}
-		});
+		 // Game board
+ 		board = new Board(shell, SWT.BORDER, length);
+ 		board.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 8));
+ 		board.setBackground(new Color(display, 187, 174, 160));
+ 		board.addKeyListener(new KeyAdapter() {
+ 			public void keyPressed(KeyEvent e) {
+ 				if (e.keyCode == SWT.ARROW_UP) {
+ 					userCommand = 8;
+ 					setChanged();
+ 					notifyObservers();
+ 				}
+ 				if (e.keyCode == SWT.ARROW_DOWN) {
+ 					userCommand = 2;
+ 					setChanged();
+ 					notifyObservers();
+ 				}
+ 				if (e.keyCode == SWT.ARROW_LEFT) {
+ 					userCommand = 4;
+ 					setChanged();
+ 					notifyObservers();
+ 				}
+ 				if (e.keyCode == SWT.ARROW_RIGHT) {
+ 					userCommand = 6;
+ 					setChanged();
+ 					notifyObservers();
+ 				}
+ 			}
+ 		});
 
-		board.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseUp(MouseEvent e) {
-				newPoint = new Point(e.x,e.y);
-				checkMouseDirection(oldPoint, newPoint);
-			}
-			
-			@Override
-			public void mouseDown(MouseEvent e) {
-				oldPoint = new Point(e.x,e.y);
-			}
-			
-			@Override
-			public void mouseDoubleClick(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		board.addDragDetectListener(new DragDetectListener() {
-			
-			@Override
-			public void dragDetected(DragDetectEvent e) {
-				dragFlag = true;
-			}
-		});
-		
-		//Menu
-	    // Create file menu
-	    Menu menuBar = new Menu(shell, SWT.BAR);
-	    MenuItem fileMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
-	    fileMenuHeader.setText("File");
-
-	    Menu fileMenu = new Menu(shell, SWT.DROP_DOWN);
-	    fileMenuHeader.setMenu(fileMenu);
-	    
-	    // Create save option in file menu
-	    MenuItem fileSaveItem = new MenuItem(fileMenu, SWT.PUSH);
-	    fileSaveItem.setText("Save");
-	    Image saveImageMenu = new Image(display, "resources/save.jpg");
-	    fileSaveItem.setImage(saveImageMenu);
-	    fileSaveItem.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				userCommand = 400;
-				FileDialog saveFd = new FileDialog(shell, SWT.SAVE);
-				saveFd.setText("Save");
-				saveFd.setFilterPath("C:/");
-				String[] filterExtension = { "*.xml", "*.txt" };
-				saveFd.setFilterExtensions(filterExtension);
-				file = saveFd.open();
-				setChanged();
-				notifyObservers();
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-	    
-	    // Create load option in file menu
-	    MenuItem fileLoadItem = new MenuItem(fileMenu, SWT.PUSH);
-	    fileLoadItem.setText("Load");
-	    Image loadImageMenu = new Image(display, "resources/load.jpg");
-	    fileLoadItem.setImage(loadImageMenu);
-	    fileLoadItem.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				userCommand = 300;
-				FileDialog loadFd = new FileDialog(shell, SWT.OPEN);
-				loadFd.setText("Open");
-				loadFd.setFilterPath("C:/");
-				String[] filterExtension = { "*.xml", "*.txt" };
-				loadFd.setFilterExtensions(filterExtension);
-				file = loadFd.open();
-				setChanged();
-				notifyObservers();
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-	    
-	    // Create edit menu
-	    MenuItem editMenuHeader = new MenuItem(menuBar, SWT.CASCADE);
-	    editMenuHeader.setText("Edit");
-
-	    Menu editMenu = new Menu(shell, SWT.DROP_DOWN);
-	    editMenuHeader.setMenu(editMenu);
-	    
-	    // Create undo option in edit menu
-	    MenuItem editUndoItem = new MenuItem(editMenu, SWT.PUSH);
-	    editUndoItem.setText("Undo");
-	    Image undoImageMenu = new Image(display, "resources/undo.jpg");
-	    editUndoItem.setImage(undoImageMenu);
-	    editUndoItem.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				userCommand = 100;
-				setChanged();
-				notifyObservers();
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-	    
-	    // Create hint option in edit menu
-	    MenuItem editHintItem = new MenuItem(editMenu, SWT.PUSH);
-	    editHintItem.setText("Hint");
-	    Image hintImageMenu = new Image(display, "resources/hint.gif");
-	    editHintItem.setImage(hintImageMenu);
-	    editHintItem.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				messageBoxRestart = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-				messageBoxRestart.setMessage("Do you really want to restart the game?");
-				messageBoxRestart.setText("Restart game");
-				int response = messageBoxRestart.open();
-				if (response == SWT.YES) {
-					userCommand = 500;
-					setChanged();
-					notifyObservers();
-				}
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-
-	    // Create restart option in edit menu
-	    MenuItem editRestartItem = new MenuItem(editMenu, SWT.PUSH);
-	    editRestartItem.setText("Restart");
-	    Image restartImageMenu = new Image(display, "resources/restart.jpg");
-	    editRestartItem.setImage(restartImageMenu);
-	    editRestartItem.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				messageBoxRestart = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-				messageBoxRestart.setMessage("Do you really want to restart the game?");
-				messageBoxRestart.setText("Restart game");
-				int response = messageBoxRestart.open();
-				if (response == SWT.YES) {
-					userCommand = 200;
-					setChanged();
-					notifyObservers();
-				}
-			}
-			
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+ 		board.addMouseListener(new MouseListener() {
+ 			
+ 			@Override
+ 			public void mouseUp(MouseEvent e) {
+ 				newPoint = new Point(e.x,e.y);
+ 				checkMouseDirection(oldPoint, newPoint);
+ 			}
+ 			
+ 			@Override
+ 			public void mouseDown(MouseEvent e) {
+ 				oldPoint = new Point(e.x,e.y);
+ 			}
+ 			
+ 			@Override
+ 			public void mouseDoubleClick(MouseEvent arg0) {
+ 				// TODO Auto-generated method stub
+ 				
+ 			}
+ 		});
+ 		
+ 		board.addDragDetectListener(new DragDetectListener() {
+ 			
+ 			@Override
+ 			public void dragDetected(DragDetectEvent e) {
+ 				dragFlag = true;
+ 			}
+ 		});
 		
 		// Undo button
 		Image undoImage = new Image(display, "resources/undo.jpg");
@@ -332,7 +188,33 @@ public class View2048 extends Observable implements View, Runnable {
 
 			}
 		});
+		
+		// Hint button
+		Image hintImage = new Image(display, "resources/hint.gif");
+		Button hintMinimax = new Button(shell, SWT.PUSH);
+		hintMinimax.setText("Hint");
+		hintMinimax.setImage(hintImage);
+		hintMinimax.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+		hintMinimax.addSelectionListener(new SelectionListener() {
 
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				userCommand = 500;
+				NumberInput numdialog = new NumberInput(shell);
+				loop = numdialog.open();
+				DepthInput depthdialog = new DepthInput(shell);
+				depth = depthdialog.open();
+				setChanged();
+				notifyObservers(); 
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+		
 		// New game button
 		Image restartImage = new Image(display, "resources/restart.jpg");
 		Button restart = new Button(shell, SWT.PUSH);
@@ -343,10 +225,10 @@ public class View2048 extends Observable implements View, Runnable {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				messageBoxRestart = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-				messageBoxRestart.setMessage("Do you really want to start a new game?");
-				messageBoxRestart.setText("New game");
-				int response = messageBoxRestart.open();
+				messageBoxNewGame = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+				messageBoxNewGame.setMessage("Do you really want to start a new game?");
+				messageBoxNewGame.setText("New game");
+				int response = messageBoxNewGame.open();
 				if (response == SWT.YES) {
 					userCommand = 200;
 					setChanged();
@@ -360,35 +242,7 @@ public class View2048 extends Observable implements View, Runnable {
 
 			}
 		});
-
-		// Load button
-		Image loadImage = new Image(display, "resources/load.jpg");
-		Button load = new Button(shell, SWT.PUSH);
-		load.setText("Load Game");
-		load.setImage(loadImage);
-		load.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
-		load.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				userCommand = 300;
-				FileDialog loadFd = new FileDialog(shell, SWT.OPEN);
-				loadFd.setText("Open");
-				loadFd.setFilterPath("C:/");
-				String[] filterExtension = { "*.xml", "*.txt" };
-				loadFd.setFilterExtensions(filterExtension);
-				file = loadFd.open();
-				setChanged();
-				notifyObservers();
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
+		
 		// Save button
 		Image saveImage = new Image(display, "resources/save.jpg");
 		Button save = new Button(shell, SWT.PUSH);
@@ -417,22 +271,25 @@ public class View2048 extends Observable implements View, Runnable {
 			}
 		});
 		
-		Image hintImage = new Image(display, "resources/hint.gif");
-		Button hintMinimax = new Button(shell, SWT.PUSH);
-		hintMinimax.setText("Hint Minimax");
-		hintMinimax.setImage(hintImage);
-		hintMinimax.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
-		hintMinimax.addSelectionListener(new SelectionListener() {
+		// Load button
+		Image loadImage = new Image(display, "resources/load.jpg");
+		Button load = new Button(shell, SWT.PUSH);
+		load.setText("Load Game");
+		load.setImage(loadImage);
+		load.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+		load.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				userCommand = 500;
-				 NumberInput numdialog = new NumberInput(shell);
-				 loop = numdialog.open();
-				 DepthInput depthdialog = new DepthInput(shell);
-				 depth = depthdialog.open();
+				userCommand = 300;
+				FileDialog loadFd = new FileDialog(shell, SWT.OPEN);
+				loadFd.setText("Open");
+				loadFd.setFilterPath("C:/");
+				String[] filterExtension = { "*.xml", "*.txt" };
+				loadFd.setFilterExtensions(filterExtension);
+				file = loadFd.open();
 				setChanged();
-				notifyObservers(); 
+				notifyObservers();
 			}
 
 			@Override
@@ -441,8 +298,53 @@ public class View2048 extends Observable implements View, Runnable {
 
 			}
 		});
-		
 
+		// Exit button
+		Image exitImage = new Image(display, "resources/exit.jpg");
+		Button exit = new Button(shell, SWT.PUSH);
+		exit.setText("Exit");
+		exit.setImage(exitImage);
+		exit.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+		exit.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				messageBoxClose = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+				messageBoxClose.setMessage("Do you really want to close the game?");
+				messageBoxClose.setText("Exit");
+				int response = messageBoxClose.open();
+				if (response == SWT.YES) {
+					messageBoxSave = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+					messageBoxSave.setMessage("Do you want to save the game?");
+					messageBoxSave.setText("Exit");
+					response = messageBoxSave.open();
+					if (response == SWT.YES){
+						userCommand = 400;
+						FileDialog saveFd = new FileDialog(shell, SWT.SAVE);
+						saveFd.setText("Save");
+						saveFd.setFilterPath("C:/");
+						String[] filterExtension = { "*.xml", "*.txt" };
+						saveFd.setFilterExtensions(filterExtension);
+						file = saveFd.open();
+						setChanged();
+						notifyObservers();
+						System.exit(0);
+					}
+					else{
+						System.exit(0);
+					}
+				}
+				else {
+					e.doit = false;
+				}
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		
 		shell.open();
 	}
