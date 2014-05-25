@@ -24,4 +24,5 @@ public interface Model {
 	public void connectServer(int depth, int loop) throws InterruptedException;
 	public int[] getNextMove();
 	public String getError();
+	void setError(String str);
 }

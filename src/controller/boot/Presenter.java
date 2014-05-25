@@ -43,8 +43,11 @@ public class Presenter implements Observer{
 						e.printStackTrace();
 					}
 					int[] moves = model.getNextMove();
-					for (int i=0; i<ui.getLoop(); i++)
-						model.move(moves[i]);
+					if (moves != null)
+					{
+						for (int i=0; i<ui.getLoop(); i++)
+							model.move(moves[i]);
+					}
 					break;
 				case 1:
 					model.MoveDownLeft();
@@ -83,6 +86,7 @@ public class Presenter implements Observer{
 				ui.displayWin(model.isWin());
 				if (model.getError() != null){
 					ui.displayServerError(model.getError());
+					model.setError(null);
 				}
 			}
 		}

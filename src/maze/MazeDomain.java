@@ -2,7 +2,6 @@ package maze;
 
 import java.awt.Point;
 import java.util.ArrayList;
-
 import model.algorithms.Action;
 import model.algorithms.Domain;
 import model.algorithms.State;
@@ -32,11 +31,9 @@ public class MazeDomain implements Domain {
 				int y = point.y + dy;
 				if (mMaze.get(x, y) != -1) {
 					actions.add(new MazeAction(dx, dy));
-					
 				}
 			}
 		}
-
 		return actions;
 	}
 

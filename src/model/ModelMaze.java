@@ -611,4 +611,11 @@ public class ModelMaze extends Observable implements Model,Serializable {
 	}
 
 
+	@Override
+	public void setError(String str) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

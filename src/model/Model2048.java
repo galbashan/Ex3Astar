@@ -691,6 +691,8 @@ public class Model2048 extends Observable implements Model,Serializable {
 		tc.join();
 		if (c.getError() != null){
 			error = c.getError();
+		setChanged();
+		notifyObservers();
 		}
 	}
 	
@@ -834,6 +836,10 @@ public class Model2048 extends Observable implements Model,Serializable {
 
 	public int getLoop() {
 		return loop;
+	}
+
+	public void setError(String error) {
+		this.error = error;
 	}
 
 
